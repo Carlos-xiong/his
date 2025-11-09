@@ -1,0 +1,15 @@
+grpcui -plaintext localhost:32001
+
+go build -tags no_k8s queue.go
+
+goctl api go --api api.api -dir ../ --home=../../goctl-tpl/tpl-int
+
+
+goctl model mongo  --type materialCategory --dir ./ --home=../../goctl-tpl/tpl-int
+
+goctl model pg datasource --url="postgres://postgres:6286964@127.0.0.1:5432/his?sslmode=disable" --table="mdm_material" --dir . --home=../../goctl-tpl/tpl-int
+
+
+goctl rpc protoc material.proto --go_out=./ --go-grpc_out=./ --zrpc_out=. -m
+
+go run main.go -c conf.yml
