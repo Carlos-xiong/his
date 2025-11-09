@@ -4,7 +4,6 @@
 package {{.pkgName}}
 
 import (
-	"his/units/xerrors"
 	{{.imports}}
 )
 
