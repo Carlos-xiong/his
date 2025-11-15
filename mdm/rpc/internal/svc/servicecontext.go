@@ -16,6 +16,8 @@ import (
 type ServiceContext struct {
 	Config        config.Config
 	MdmBrandModel *ent.MdmBrandsClient
+	// 添加 entClient 作为别名，解决 undefined 错误
+	entClient *ent.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -27,6 +29,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:        c,
 		MdmBrandModel: PostgresClient.MdmBrands,
+		entClient:     PostgresClient, // 同时设置 entClient
 	}
 }
 
@@ -37,6 +40,7 @@ func NewEntClientWithPool(c config.Config) (*ent.Client, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
+	defer db.Close()
 
 	// 配置连接池
 	db.SetMaxOpenConns(c.PostgresConf.MaxOpenConns)
@@ -57,4 +61,11 @@ func NewEntClientWithPool(c config.Config) (*ent.Client, error) {
 	client := ent.NewClient(ent.Driver(driver))
 
 	return client, nil
+}
+
+func (sc *ServiceContext) Close() error {
+	if sc.entClient != nil {
+		return sc.entClient.Close()
+	}
+	return nil
 }
