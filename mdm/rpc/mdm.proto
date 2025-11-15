@@ -12,294 +12,48 @@ message TotalResponse {
   int64 total = 1;
 }
 
-
-
-/*****************************************************************************************/
-/*基础物料
-******************************************************************************************/
-
-message MaterialBaseExtInfo {
-  int64 costPrice = 1; //成本价
-  int64 retailPrice = 2; //零售价
-  int64 weight = 3; //重量
-  string unit = 4; //单位
-  string specifications = 5; //规格
-}
-message MaterialBaseWarrantyInfo {
-  int64 useExpire = 1; //是否使用保质期
-  int64 warnDay = 2; //预警天数
-  int64 quitDay = 3; //过期天数
-}
-message MaterialBaseInfo {
-//  int64 id = 1; // 主键
-  string sku = 1; //SKU
-  string title = 2; //商品名称
-  int64 createAt = 3; // 创建时间
-  int64 updateAt = 4; // 更新时间
-  int64 omnichannel = 5; //是否全渠道
-  int64 category1 = 6; //分类ID
-  int64 category2 = 7; //分类ID
-
-  int64 serialNumber = 8; //序列号
-  int64 rate = 9; //税率
-  int64 disabled = 10; //是否禁用
-  int64 brandId = 11; //品牌ID
-  MaterialBaseExtInfo ext = 12; //扩展信息
-  repeated string barcode = 13; //条码
-  MaterialBaseWarrantyInfo warranty = 14; //保质期信息
-  string brandTitle = 15; //品牌名称
-
-}
-
-/********基础物料列表请求返回*********************/
-message MaterialBaseListRequest {
-  int64 page = 1;
-  int64 pageSize = 2;
-  string orderBy = 3;
-  repeated string sku = 4; //SKU
-  string title = 5; //商品名称
-  int64 category1 = 6; //分类ID
-  int64 category2 = 7; //子分类ID
-  int64 brandId = 8; //品牌ID
-  int64 disabled = 9; //是否禁用
-}
-message MaterialBaseListResponse {
-  repeated MaterialBaseInfo list = 1;
-}
-/*************基础物料信息请求返回*******************/
-message MaterialBaseInfoRequest {
-  string sku = 1; //SKU
-  string barcode =2; //条码
-}
-
-/****************基础物料修改请求返回*******************/
-message MaterialBaseUpdateRequest {
-  string sku = 1; //SKU
-  string title = 2; //商品名称
-  int64 omnichannel = 3; //是否全渠道
-  int64 category1 = 4; //分类ID
-  int64 category2 = 5; //分类ID
-  int64 serialNumber = 6; //序列号
-  int64 rate = 7; //税率
-  int64 brandId = 8; //品牌ID
-}
-/******************基础物料禁用启用请求返回*******************/
-message MaterialBaseDisabledRequest {
-  string sku = 1; //SKU
-  int64 disabled = 2; //是否禁用
-}
-/******************基础物料扩展信息更新请求返回*******************/
-message MaterialBaseExtUpdateRequest {
-  string sku = 1; //SKU
-  MaterialBaseExtInfo ext = 2; //扩展信息
-}
-/******************基础物料条码增加请求返回*******************/
-message MaterialBaseBarcodeAddRequest {
-  string sku = 1; //SKU
-  string barcode = 2; //条码
-}
-/******************基础物料条码删除请求返回*******************/
-message MaterialBaseBarcodeDeleteRequest {
-  string sku = 1; //SKU
-  string barcode = 2; //条码
-}
-/******************基础物料保质期设置请求返回*******************/
-message MaterialBaseWarrantyUpdateRequest {
-  string sku = 1; //SKU
-  MaterialBaseWarrantyInfo warranty = 2; //保质期信息
-}
-
-
-/* 基础物料服务接口 */
-service materialBaseService{
-  /*基础物料数量*/
-  rpc MaterialBaseCount(MaterialBaseListRequest) returns(TotalResponse);
-
-  /*基础物料列表*/
-  rpc MaterialBaseList(MaterialBaseListRequest) returns(MaterialBaseListResponse);
-  /*基础物料信息*/
-  rpc MaterialBaseDetails(MaterialBaseInfoRequest) returns(MaterialBaseInfo);
-  /*基础物料增加*/
-  rpc MaterialBaseAdd(MaterialBaseInfo) returns(EmptyResponse);
-  /*基础物料修改*/
-  rpc MaterialBaseUpdate(MaterialBaseUpdateRequest) returns(EmptyResponse);
-  /*基础物料禁用启用*/
-  rpc MaterialBaseDisabled(MaterialBaseDisabledRequest) returns(EmptyResponse);
-  /*基础物料扩展信息更新*/
-  rpc MaterialBaseExtUpdate(MaterialBaseExtUpdateRequest) returns(EmptyResponse);
-  /*基础物料保质期设置*/
-  rpc MaterialBaseWarrantyUpdate(MaterialBaseWarrantyUpdateRequest) returns(EmptyResponse);
-  /*基础物料条码增加*/
-  rpc MaterialBaseBarcodeAdd(MaterialBaseBarcodeAddRequest) returns(EmptyResponse);
-  /*基础物料条码删除*/
-  rpc MaterialBaseBarcodeDelete(MaterialBaseBarcodeDeleteRequest) returns(EmptyResponse);
-
-}
-
-
-
-
 /************************************************************************************************/
 /*基础物料品牌
 *********************************************************************************************** */
-message MaterialBrandInfo {
-  int64 id = 1; // 主键
-  string title = 2; //品牌名称
-  int64 createAt = 3; // 创建时间
-  int64 updateAt = 4; // 更新时间
-  int64 disabled = 5; //是否禁用
-  string code = 6; //品牌编码
+
+message MdmBrandInfo {
+  int64 brand_id = 1; // 主键
+  string brand_name = 2; //品牌简称
+  string brand_logo = 3;
+  string brand_title = 4;
+  //int64 createAt = 3; // 创建时间
+  //int64 updateAt = 4; // 更新时间
 }
-message MaterialBrandListRequest {
+/******************品牌列表请求返回*******************/
+message MdmBrandListRequest {
   int64 page = 1;
   int64 pageSize = 2;
   string orderBy = 3;
+  repeated int64 brand_id=4;
 }
-message MaterialBrandListResponse {
-  repeated MaterialBrandInfo list = 1;
+message MdmBrandListResponse {
+  repeated MdmBrandInfo list = 4;
 }
-/******************基础物料品牌信息请求返回*******************/
-message MaterialBrandInfoRequest {
-  int64 id = 1; // 主键
-}
-
-
-/******************基础物料品牌禁用启用请求返回*******************/
-message MaterialBrandDisabledRequest {
-  int64 id = 1; // 主键
-  int64 disabled = 2; //是否禁用
-}
-
-/* 基础物料品牌服务接口 */
-service materialBrandService{
-  /*基础物料品牌数量*/
-  rpc MaterialBrandCount(MaterialBrandListRequest) returns(TotalResponse);
-  /*基础物料品牌列表*/
-  rpc MaterialBrandList(MaterialBrandListRequest) returns(MaterialBrandListResponse);
-  /*基础物料品牌信息*/
-  rpc MaterialBrandDetails(MaterialBrandInfoRequest) returns(MaterialBrandInfo);
-  /*基础物料品牌增加*/
-  rpc MaterialBrandAdd(MaterialBrandInfo) returns(EmptyResponse);
-  /*基础物料品牌修改*/
-  rpc MaterialBrandUpdate(MaterialBrandInfo) returns(EmptyResponse);
-  /*基础物料品牌禁用启用*/
-  rpc MaterialBrandDisabled(MaterialBrandDisabledRequest) returns(EmptyResponse);
+/******************品牌信息请求返回*******************/
+message MdmBrandInfoRequest {
+  int64 brand_id = 1; // 主键
+  string brand_name = 2; //品牌代码
 }
 
 
-/************************************************************************************************/
-/*基础物料分类
-*********************************************************************************************** */
-message MaterialCategoryInfo {
-  int64 id = 1; // 主键
-  string title = 2; //分类名称
-  int64 createAt = 3; // 创建时间
-  int64 updateAt = 4; // 更新时间
-  int64 pid = 5; //父级ID
-  int64 disabled = 6; //是否禁用
-  int64 child = 7; //子分类数量
-  int64 sort = 8; //排序
-}
-message MaterialCategoryListRequest {
-  int64 page = 1;
-  int64 pageSize = 2;
-  string orderBy = 3;
-  int64 pid = 4;
-  string title = 5;
-  int64 disabled = 6;
-}
-message MaterialCategoryListResponse {
-  repeated MaterialCategoryInfo list = 1;
-}
-/******************基础物料分类信息请求返回*******************/
-message MaterialCategoryInfoRequest {
-  int64 id = 1; // 主键
-}
-
-/******************基础物料分类更新子类数请求返回******************/
-message MaterialCategoryChildUpdateRequest {
-  int64 id = 1; // 主键
-  int64 child = 2; //子分类数增量
-}
-/******************基础物料分类禁用启用请求返回*******************/
-message MaterialCategoryDisabledRequest {
-  int64 id = 1; // 主键
-  int64 disabled = 2; //是否禁用
-}
 
 
-/* 基础物料分类服务接口 */
-service materialCategoryService{
-  /*基础物料分类数量*/
-  rpc MaterialCategoryCount(MaterialCategoryListRequest) returns(TotalResponse);
-  /*基础物料分类列表*/
-  rpc MaterialCategoryList(MaterialCategoryListRequest) returns(MaterialCategoryListResponse);
-  /*基础物料分类信息*/
-  rpc MaterialCategoryDetails(MaterialCategoryInfoRequest) returns(MaterialCategoryInfo);
-  /*基础物料分类增加*/
-  rpc MaterialCategoryAdd(MaterialCategoryInfo) returns(EmptyResponse);
-  /*基础物料分类修改*/
-  rpc MaterialCategoryUpdate(MaterialCategoryInfo) returns(EmptyResponse);
-  /*基础物料分类更新子类数*/
-  rpc MaterialCategoryChildUpdate(MaterialCategoryChildUpdateRequest) returns(EmptyResponse);
-  /*基础物料分类禁用启用*/
-  rpc MaterialCategoryDisabled(MaterialCategoryDisabledRequest) returns(EmptyResponse);
+/* 品牌服务接口 */
+service MdmBrandService{
+  /*品牌数量*/
+  rpc MdmBrandCount(MdmBrandListRequest) returns(TotalResponse);
+  /*品牌列表*/
+  rpc MdmBrandList(MdmBrandListRequest) returns(MdmBrandListResponse);
+  /*品牌信息*/
+  rpc MdmBrandDetails(MdmBrandInfoRequest) returns(MdmBrandInfo);
+  /*品牌增加*/
+  rpc MdmBrandAdd(MdmBrandInfo) returns(EmptyResponse);
+  /*品牌修改*/
+  rpc MdmBrandUpdate(MdmBrandInfo) returns(EmptyResponse);
 }
 
-/************************************************************************************************/
-/*商品物料
-*********************************************************************************************** */
-message MaterialProductExtInfo {
-  int64 costPrice = 1; //成本价
-  int64 retailPrice = 2; //零售价
-  int64 weight = 3; //重量
-  string unit = 4; //单位
-}
-message MaterialProductInfo {
-  string productCode = 1; //商品编码
-  string title = 2; //商品名称
-  int64 createAt = 3; // 创建时间
-  int64 updateAt = 4; // 更新时间
-  int64 mode=5; //商品类型
-  int64 disabled = 6; //是否禁用
-  repeated string sku = 7; //SKU
-  MaterialProductExtInfo ext = 8; //扩展信息
-}
-/******************商品物料列表请求返回*******************/
-message MaterialProductListRequest {
-  int64 page = 1;
-  int64 pageSize = 2;
-  string orderBy = 3;
-  string sku = 4; //SKU
-  string productCode = 5; //商品编码
-  string title = 6; //商品名称
-  int64 mode=7; //商品类型
-  int64 disabled = 8; //是否禁用
-
-}
-message MaterialProductListResponse {
-  repeated MaterialProductInfo list = 1;
-}
-/******************商品物料信息请求返回*******************/
-message MaterialProductInfoRequest {
-  string sku = 1; //SKU
-  string productCode = 2; //商品编码
-}
-
-/* 商品物料分类服务接口 */
-service materialProductService{
-  /*商品物料数量*/
-  rpc MaterialProductCount(MaterialProductListRequest) returns(TotalResponse);
-  /*商品物料列表*/
-  rpc MaterialProductList(MaterialProductListRequest) returns(MaterialProductListResponse);
-  /*商品物料信息*/
-  rpc MaterialProductDetails(MaterialProductInfoRequest) returns(MaterialProductInfo);
-  /*商品物料增加*/
-  rpc MaterialProductAdd(MaterialProductInfo) returns(EmptyResponse);
-  /*商品物料修改*/
-  rpc MaterialProductUpdate(MaterialProductInfo) returns(EmptyResponse);
-  /*商品物料禁用启用*/
-  rpc MaterialProductDisabled(MaterialProductInfoRequest) returns(EmptyResponse);
-  /*商品物料扩展信息更新*/
-  rpc MaterialProductExtUpdate(MaterialProductInfo) returns(EmptyResponse);
-}

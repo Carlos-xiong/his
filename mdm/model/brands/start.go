@@ -20,6 +20,8 @@ func main() {
 	// Run the auto migration tool.
 	if err := client.Schema.Create(context.Background()); err != nil {
 		log.Fatalf("failed creating schema resources: %v", err)
+	} else {
+		log.Println("schema resources created successfully")
 	}
 	//查找ID
 	brand, err := client.MdmBrands.Get(context.Background(), 9)

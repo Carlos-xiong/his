@@ -1,0 +1,29 @@
+Name: mdm.rpc
+ListenOn: 0.0.0.0:7000
+Mode: dev
+Timeout: 120000
+
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: mdm.rpc
+
+
+PostgresConf:
+  Host: 127.0.0.1
+  Port: 5432
+  User: postgres
+  DbName: his
+  Password: A6286964
+  SslMode: disable
+  MaxOpenConns: 50
+  MaxIdleConns: 25
+  ConnMaxLifeTime: 30
+  ConnMaxIdleTime: 15
+
+Redis:
+  Host: localhost:6379
+  Pass: ""
+  Type: node
+  Key: his
+  Db: 1
