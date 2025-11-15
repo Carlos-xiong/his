@@ -18,3 +18,21 @@ go run main.go -c conf.yml
 
 go run -mod=mod entgo.io/ent/cmd/ent init User
 go generate ./ent
+
+
+# 1. 检查当前状态
+git status
+git branch -a
+
+# 2. 如果有未提交的更改，先提交
+git add .
+git commit -m "Initial commit"
+
+# 3. 如果本地没有 main 分支，从当前分支创建
+git checkout -b main
+
+# 4. 推送到远程（第一次推送需要 -u 参数）
+git push -u origin main
+
+# 5. 后续推送只需要
+git push
